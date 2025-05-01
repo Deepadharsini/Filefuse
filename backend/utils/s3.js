@@ -17,6 +17,7 @@ const uploadFile = (buffer, filename, mimetype) => {
       Key: key,
       Body: buffer,
       ContentType: mimetype,
+      Tagging:"ExpireAfter=1d"
     })
     .promise();
 };
