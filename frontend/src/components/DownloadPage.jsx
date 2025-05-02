@@ -14,6 +14,7 @@ export default function DownloadPage() {
         params: { password },
       });
       setDownloadURL(res.data.downloadURL);
+      console.log(res.data.downloadURL);
       setFilename(res.data.filename);
     } catch (err) {
       alert("Error: " + err.response.data);
@@ -22,7 +23,7 @@ export default function DownloadPage() {
 
   return (
     <div className="max-w-md mx-auto mt-10 p-4 bg-white shadow rounded space-y-4">
-      <h2 className="text-xl font-semibold text-center">SafeVault - Download File</h2>
+      <h2 className="text-xl font-semibold text-center">Filefuse - Download File</h2>
       <input
         type="text"
         placeholder="Password (if required)"

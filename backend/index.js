@@ -6,7 +6,9 @@ const uploadRoutes = require("./routes/upload.js");
 const downloadRoutes = require("./routes/download.js");
 
 const app = express();
-app.use(cors());
+app.use(cors({origin: "http://localhost:5173", 
+  credentials: true
+}));
 app.use(express.json());
 
 app.use("/api", uploadRoutes);
