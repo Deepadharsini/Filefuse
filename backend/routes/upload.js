@@ -2,14 +2,14 @@ const express = require("express");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
-const Redis = require('ioredis');
+const Redis = require("ioredis");
 const { uploadFile } = require("../utils/s3"); // Ensure this is the correct import
 
 const router = express.Router();
 
 // Redis setup
 const redis = new Redis({
-  host: 'localhost', // Redis host
+  host: "localhost", // Redis host
   port: 6379, // Redis port
 });
 
@@ -29,28 +29,32 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
   try {
     console.log("upload called");
+
     // Upload file to S3
     const s3Response = await uploadFile(file.buffer, file.originalname, file.mimetype);
 
     // Hash password if provided
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
 
+    // Ensure expiresIn is parsed as an integer (seconds)
+    const expiresInSeconds = parseInt(expiresIn);
+
     // Prepare metadata
     const metadata = {
       key: s3Response.Key,
       filename: file.originalname,
-      expiresIn:expiresIn,
+      expiresIn: expiresInSeconds, // Save the parsed version
       password: hashedPassword,
       email,
     };
 
-    // Store file metadata in Redis with expiration using setex (ioredis method)
     // Store file metadata in Redis with expiration
-await redis.setex(`file:${id}`, parseInt(expiresIn), JSON.stringify({ ...metadata, expiresIn }));
+    await redis.setex(`file:${id}`, expiresInSeconds, JSON.stringify(metadata));
 
+    // Return the file ID for download link
     res.json({ fileId: id });
   } catch (err) {
-    console.error(err);
+    console.error("Upload error:", err);
     res.status(500).send("Upload failed");
   }
 });

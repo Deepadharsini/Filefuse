@@ -14,10 +14,17 @@ export default function DownloadPage() {
         params: { password },
       });
       setDownloadURL(res.data.downloadURL);
-      console.log(res.data.downloadURL);
       setFilename(res.data.filename);
+
+      // Automatically trigger download
+      const link = document.createElement("a");
+      link.href = res.data.downloadURL;
+      link.download = res.data.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } catch (err) {
-      alert("Error: " + err.response.data);
+      alert("Error: " + err.response?.data || "Something went wrong");
     }
   };
 
@@ -36,10 +43,8 @@ export default function DownloadPage() {
       </button>
 
       {downloadURL && (
-        <div className="text-center mt-4">
-          <a href={downloadURL} target="_blank" rel="noopener noreferrer" className="text-blue-700 underline">
-            Click to download "{filename}"
-          </a>
+        <div className="text-center mt-4 text-green-700 font-medium">
+          If unable to download file <a href={downloadURL} download={filename} className="underline">click here</a>.
         </div>
       )}
     </div>

@@ -17,16 +17,18 @@ const uploadFile = (buffer, filename, mimetype) => {
       Key: key,
       Body: buffer,
       ContentType: mimetype,
-      Tagging:"ExpireAfter=1d"
+      Tagging: "ExpireAfter=1d"
     })
     .promise();
 };
 
-const generateDownloadURL = async (key, expiresIn) => {
+// ✅ FIXED: Add Content-Disposition to force download
+const generateDownloadURL = async (key, expiresIn = 600) => {
   return s3.getSignedUrlPromise("getObject", {
     Bucket: BUCKET,
     Key: key,
-    Expires: expiresIn || 600, // Default: 10 minutes
+    Expires: expiresIn,
+    ResponseContentDisposition: "attachment" // 👈 forces browser to download
   });
 };
 
