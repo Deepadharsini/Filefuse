@@ -6,7 +6,7 @@ const uploadRoutes = require("./routes/upload.js");
 const downloadRoutes = require("./routes/download.js");
 
 const app = express();
-app.use(cors({origin: "http://localhost:5173", 
+app.use(cors({origin: ["http://localhost:5173", "https://filefuse.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
