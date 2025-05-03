@@ -7,28 +7,32 @@ export default function UploadForm() {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [fileId, setFileId] = useState("");
+  const [loading, setLoading] = useState(false);  // Track loading state
 
   const handleUpload = async () => {
     if (!file) {
       alert("Please select a file to upload.");
       return;
     }
-  
+
     const expiresIn = expiresInMinutes * 60;  // Convert to seconds
     const formData = new FormData();
     formData.append("file", file);
     formData.append("expiresIn", expiresIn);  // Send as seconds
     formData.append("password", password);
     formData.append("email", email);
-  
+
+    setLoading(true); // Start loading state
+
     try {
-      const res = await axios.post("http://localhost:3000/api/upload", formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/upload`, formData);
       setFileId(res.data.fileId);
     } catch (err) {
-      alert("Upload failed: " + err.message);
+      alert("Upload failed: " + (err.response?.data || err.message));  // Enhanced error message
+    } finally {
+      setLoading(false); // Stop loading state
     }
   };
-  
 
   return (
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded space-y-6">
@@ -86,9 +90,10 @@ export default function UploadForm() {
       {/* Upload Button */}
       <button
         onClick={handleUpload}
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+        className={`w-full ${loading ? "bg-gray-400" : "bg-blue-600"} text-white py-2 rounded hover:bg-blue-700 transition duration-200`}
+        disabled={loading}  // Disable button while uploading
       >
-        Upload
+        {loading ? "Uploading..." : "Upload"}
       </button>
 
       {/* Download Link */}
@@ -96,7 +101,7 @@ export default function UploadForm() {
         <div className="text-center mt-4">
           <p className="font-medium">Your download link:</p>
           <code className="break-all text-blue-700">
-            http://localhost:5173/download/{fileId}
+            {import.meta.env.VITE_CLIENT_URL}download/{fileId}
           </code>
         </div>
       )}

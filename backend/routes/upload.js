@@ -2,16 +2,10 @@ const express = require("express");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
-const Redis = require("ioredis");
-const { uploadFile } = require("../utils/s3"); // Ensure this is the correct import
+const redis = require("../redisClient"); // ✅ Use the shared redis client
+const { uploadFile } = require("../utils/s3"); // ✅ Ensure this import is correct
 
 const router = express.Router();
-
-// Redis setup
-const redis = new Redis({
-  host: "localhost", // Redis host
-  port: 6379, // Redis port
-});
 
 // Multer setup for handling file uploads
 const storage = multer.memoryStorage();
@@ -31,7 +25,11 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     console.log("upload called");
 
     // Upload file to S3
-    const s3Response = await uploadFile(file.buffer, file.originalname, file.mimetype);
+    const s3Response = await uploadFile(
+      file.buffer,
+      file.originalname,
+      file.mimetype
+    );
 
     // Hash password if provided
     const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
@@ -43,7 +41,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     const metadata = {
       key: s3Response.Key,
       filename: file.originalname,
-      expiresIn: expiresInSeconds, // Save the parsed version
+      expiresIn: expiresInSeconds,
       password: hashedPassword,
       email,
     };

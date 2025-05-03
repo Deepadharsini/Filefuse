@@ -10,7 +10,8 @@ export default function DownloadPage() {
 
   const fetchFile = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/download/${id}`, {
+      // Corrected URL to include VITE_API_BASE_URL from the environment
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/download/${id}`, {
         params: { password },
       });
       setDownloadURL(res.data.downloadURL);
@@ -24,7 +25,7 @@ export default function DownloadPage() {
       link.click();
       document.body.removeChild(link);
     } catch (err) {
-      alert("Error: " + err.response?.data || "Something went wrong");
+      alert("Error: " + (err.response?.data || "Something went wrong"));
     }
   };
 
@@ -44,7 +45,7 @@ export default function DownloadPage() {
 
       {downloadURL && (
         <div className="text-center mt-4 text-green-700 font-medium">
-          If unable to download file <a href={downloadURL} download={filename} className="underline">click here</a>.
+          If unable to download file, <a href={downloadURL} download={filename} className="underline">click here</a>.
         </div>
       )}
     </div>
