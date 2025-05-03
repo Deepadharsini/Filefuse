@@ -14,7 +14,7 @@ app.use(express.json());
 app.use("/api", uploadRoutes);
 app.use("/api", downloadRoutes);
 
-app.get("/", (req, res) => res.send("Filefuse EC2 ✅"));
+app.get("/", (req, res) => res.send("Filefulse is running.."));
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on http://localhost:${process.env.PORT}`)
