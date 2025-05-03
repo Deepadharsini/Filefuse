@@ -101,7 +101,7 @@ export default function UploadForm() {
         <div className="text-center mt-4">
           <p className="font-medium">Your download link:</p>
           <code className="break-all text-blue-700">
-            {`${import.meta.env.VITE_CLIENT_URL}download/${fileId}`}
+            {`${import.meta.env.VITE_CLIENT_URL}/download/${fileId}`}
           </code>
 
         </div>
