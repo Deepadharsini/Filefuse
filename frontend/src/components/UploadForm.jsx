@@ -79,14 +79,6 @@ export default function UploadForm() {
         onChange={(e) => setPassword(e.target.value)}
         className="w-full p-2 border border-gray-300 rounded"
       />
-      <input
-        type="email"
-        placeholder="Notify me at (optional email)"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded"
-      />
-
       {/* Upload Button */}
       <button
         onClick={handleUpload}
