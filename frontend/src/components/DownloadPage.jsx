@@ -34,7 +34,7 @@ export default function DownloadPage() {
       <h2 className="text-xl font-semibold text-center">Filefuse - Download File</h2>
       <input
         type="text"
-        placeholder="Password (if required)"
+        placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         className="w-full p-2 border rounded"
