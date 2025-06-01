@@ -1,13 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const cronJob = require('./cron'); // ✅ This imports and starts the job
+const cronJob = require('./cron'); //  This imports and starts the job
 const uploadRoutes = require("./routes/upload.js");
 const downloadRoutes = require("./routes/download.js");
 
 const app = express();
 
-// ✅ Allow frontend domains
+//  Allow frontend domains
 app.use(cors({
   origin: [
     "http://localhost:5173",
@@ -19,17 +19,17 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ Routes
+//  Routes
 app.use("/api", uploadRoutes);
 app.use("/api", downloadRoutes);
 
-// ✅ Root route
+// Root route
 app.get("/", (req, res) => res.send("Filefuse is running.."));
 
-// ✅ Start server
+//  Start server
 app.listen(process.env.PORT, () => {
   console.log(`Server running on http://localhost:${process.env.PORT}`);
 });
 
-// ✅ Start the cron job
-cronJob.start(); // <- This line actually starts your keep-alive job!
+//  Start the cron job
+cronJob.start(); // This line actually starts your keep-alive job!

@@ -22,13 +22,13 @@ const uploadFile = (buffer, filename, mimetype) => {
     .promise();
 };
 
-// ✅ FIXED: Add Content-Disposition to force download
+//  Add Content-Disposition to force download
 const generateDownloadURL = async (key, expiresIn = 600) => {
   return s3.getSignedUrlPromise("getObject", {
     Bucket: BUCKET,
     Key: key,
     Expires: expiresIn,
-    ResponseContentDisposition: "attachment" // 👈 forces browser to download
+    ResponseContentDisposition: "attachment" //  forces browser to download
   });
 };
 

@@ -23,12 +23,12 @@ router.get("/download/:id", async (req, res) => {
     const metadata = JSON.parse(data);
     const { key, filename, password, email, expiresIn } = metadata;
 
-    console.log(`[DOWNLOAD] Metadata found:`);
-    console.log(`  - S3 Key: ${key}`);
-    console.log(`  - Filename: ${filename}`);
-    console.log(`  - Password Protected: ${!!password}`);
-    console.log(`  - Email: ${email}`);
-    console.log(`  - Expiration: ${expiresIn} minutes`);
+    // console.log(`[DOWNLOAD] Metadata found:`);
+    // console.log(`  - S3 Key: ${key}`);
+    // console.log(`  - Filename: ${filename}`);
+    // console.log(`  - Password Protected: ${!!password}`);
+    // console.log(`  - Email: ${email}`);
+    // console.log(`  - Expiration: ${expiresIn} minutes`);
 
     // Password verification if applicable
     if (password) {

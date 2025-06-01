@@ -2,8 +2,8 @@ const express = require("express");
 const multer = require("multer");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcryptjs");
-const redis = require("../redisClient"); // ✅ Use the shared redis client
-const { uploadFile } = require("../utils/s3"); // ✅ Ensure this import is correct
+const redis = require("../redisClient"); //  Use the shared redis client
+const { uploadFile } = require("../utils/s3"); //  Ensure this import is correct
 
 const router = express.Router();
 
@@ -43,7 +43,6 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       filename: file.originalname,
       expiresIn: expiresInSeconds,
       password: hashedPassword,
-      email,
     };
 
     // Store file metadata in Redis with expiration
@@ -56,5 +55,4 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     res.status(500).send("Upload failed");
   }
 });
-
 module.exports = router;

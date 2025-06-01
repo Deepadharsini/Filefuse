@@ -5,7 +5,7 @@ export default function UploadForm() {
   const [file, setFile] = useState(null);
   const [expiresInMinutes, setExpiresInMinutes] = useState(60); // Default to 1 hour
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [fileId, setFileId] = useState("");
   const [loading, setLoading] = useState(false);  // Track loading state
 
@@ -20,7 +20,7 @@ export default function UploadForm() {
     formData.append("file", file);
     formData.append("expiresIn", expiresIn);  // Send as seconds
     formData.append("password", password);
-    formData.append("email", email);
+    // formData.append("email", email);
 
     setLoading(true); // Start loading state
 
