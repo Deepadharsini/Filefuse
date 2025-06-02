@@ -11,8 +11,6 @@ async function keepAlive() {
     console.log("Set keepalive key result:", setResult);
   } catch (err) {
     console.error("Error in Redis keepAlive:", err);
-  } finally {
-    redis.quit(); // Close Redis connection
   }
 }
 
